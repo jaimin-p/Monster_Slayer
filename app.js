@@ -15,25 +15,47 @@ methods : {
         },
 
         attack:function(){
-            this.monsterHealth -=  this.calculateDamage(3,10);
+            this.playerAttacks(3,10);
             if(this.checkStatus()){
                 return;
             }
 
-            this.playerHealth -= this.calculateDamage(5,12);
+            this.monsterAttacks(5,12);
             this.checkStatus();
         },
 
         specialAttack:function(){
+           this.playerAttacks(10,20)
+           if(this.checkStatus()){
+            return;
+            }
 
+            this.monsterAttacks(5,12);
+            this.checkStatus();
         },
 
         heal:function(){
-
+            if(this.playerHealth<=90)
+            {
+                this.playerHealth += 10;
+            }
+            else
+            {
+                this.playerHealth = 100;
+            }
+            this.monsterAttacks(5,12);
         },
 
         giveUp:function(){
 
+        },
+
+        playerAttacks:function(min,max){
+            this.monsterHealth -=  this.calculateDamage(min,max);
+        },
+
+        monsterAttacks : function (min,max){
+            this.playerHealth -=  this.calculateDamage(min,max);
         },
 
         calculateDamage :function(min,max){
