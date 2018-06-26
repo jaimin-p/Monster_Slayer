@@ -3,7 +3,8 @@ el:"#app",
 data:{
     playerHealth : 100,
     monsterHealth : 100,
-    gameIsRunning : false
+    gameIsRunning : false,
+    fightLog :[]
 },
 
 methods : {
@@ -12,9 +13,11 @@ methods : {
             this.gameIsRunning = true;
             this.playerHealth = 100;
             this.monsterHealth = 100; 
+            this.fightLog =[];
         },
 
         attack:function(){
+            
             this.playerAttacks(3,10);
             if(this.checkStatus()){
                 return;
@@ -25,8 +28,10 @@ methods : {
         },
 
         specialAttack:function(){
-           this.playerAttacks(10,20)
-           if(this.checkStatus()){
+          
+            this.playerAttacks(10,20);
+           
+            if(this.checkStatus()){
             return;
             }
 
@@ -43,6 +48,10 @@ methods : {
             {
                 this.playerHealth = 100;
             }
+            this.fightLog.unshift({
+                isPlayer : true,
+                text : 'Player Heals  by 10% , Beware !! Monster is Attacking !!'
+            });
             this.monsterAttacks(5,12);
         },
 
@@ -54,11 +63,21 @@ methods : {
         },
 
         playerAttacks:function(min,max){
-            this.monsterHealth -=  this.calculateDamage(min,max);
+            var damage = this.calculateDamage(min,max);
+            this.monsterHealth -=  damage;
+            this.fightLog.unshift({
+                isPlayer : true,
+                text : 'Player hits Monster by ' + damage +'%.'
+            });
         },
 
         monsterAttacks : function (min,max){
-            this.playerHealth -=  this.calculateDamage(min,max);
+            var damage = this.calculateDamage(min,max);
+            this.playerHealth -=  damage;
+            this.fightLog.unshift({
+                isPlayer : false,
+                text : 'Monster hits Player by ' + damage +'%.'
+            });
         },
 
         calculateDamage :function(min,max){
