@@ -47,7 +47,10 @@ methods : {
         },
 
         giveUp:function(){
-
+            if(confirm('Are you sure you want to Quit ?'))
+            {
+                this.gameIsRunning = false;
+            }
         },
 
         playerAttacks:function(min,max){
