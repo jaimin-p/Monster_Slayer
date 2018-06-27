@@ -4,7 +4,9 @@ data:{
     playerHealth : 100,
     monsterHealth : 100,
     gameIsRunning : false,
-    fightLog :[]
+    fightLog :[],
+    ptom : 0,
+    mtop : 0
 },
 
 methods : {
@@ -25,12 +27,12 @@ methods : {
 
             this.monsterAttacks(5,12);
             this.checkStatus();
+
         },
 
         specialAttack:function(){
           
             this.playerAttacks(10,20);
-           
             if(this.checkStatus()){
             return;
             }
@@ -63,20 +65,20 @@ methods : {
         },
 
         playerAttacks:function(min,max){
-            var damage = this.calculateDamage(min,max);
-            this.monsterHealth -=  damage;
+            this.ptom = this.calculateDamage(min,max);
+            this.monsterHealth -=  this.ptom;
             this.fightLog.unshift({
                 isPlayer : true,
-                text : 'Player hits Monster by ' + damage +'%.'
+                text : 'Player hits Monster by ' +this.ptom +'%.'
             });
         },
 
         monsterAttacks : function (min,max){
-            var damage = this.calculateDamage(min,max);
-            this.playerHealth -=  damage;
+             this.mtop = this.calculateDamage(min,max);
+            this.playerHealth -=  this.mtop;
             this.fightLog.unshift({
                 isPlayer : false,
-                text : 'Monster hits Player by ' + damage +'%.'
+                text : 'Monster hits Player by ' + this.mtop +'%.'
             });
         },
 
@@ -110,7 +112,32 @@ methods : {
             }
 
             return false;
+        },
+
+        addAnimation : function(){
+
+            if(this.ptom > this.mtop)
+            {
+            $('#player').removeClass('bounce animated green').addClass('bounce animated green').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+                $(this).removeClass('bounce animated green');
+              });
+
+              $('#monster').removeClass('jello animated red').addClass('jello animated red').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+                $(this).removeClass('jello animated red');
+              }); 
+            }
+            else{
+                $('#monster').removeClass('bounce animated green').addClass('bounce animated green').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+                    $(this).removeClass('bounce animated green');
+                  });
+
+                $('#player').removeClass('jello animated red').addClass('jello animated red').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+                    $(this).removeClass('jello animated red');
+                });
+            }
+
         }
+
 
     
 }

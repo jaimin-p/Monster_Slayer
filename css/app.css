@@ -2,6 +2,14 @@
     text-align: center;
 }
 
+.green {
+    color:green;
+}
+
+.red {
+    color:red;
+}
+
 .healthbar {
     width: 80%;
     height: 40px;
